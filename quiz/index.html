@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caselet of the Week: Pulse - The ASC Growth Play</title>
+<style>
+  :root{
+    --ink:#1e293b;
+    --navy:#073763;
+    --paper:#f2f1f6;
+    --panel:#ffffff;
+    --line:#cbd5e1;
+    --lightblue:#cfe2f3;
+    --accent:#5846c8;
+    --slate:#64748b;
+    --good:#16663f;
+    --good-bg:#d1f5df;
+    --bad:#a3281b;
+    --bad-bg:#fde2e1;
+  }
+
+  /* --- Force Georgia on every element --- */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', serif !important;
+  }
+
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+  }
+  .wrap{max-width:640px;margin:0 auto;background:var(--panel);}
+
+  .header{padding:20px 24px 0;}
+  .badge-row{margin-bottom:8px;}
+  .badge{
+    display:inline-block;
+    background:var(--lightblue);
+    color:var(--navy);
+    font-size:12px;
+    letter-spacing:.02em;
+    padding:4px 10px;
+    border-radius:3px;
+  }
+  h1{
+    font-size:24px;
+    line-height:1.25;
+    color:var(--navy);
+    margin:6px 0 8px;
+  }
+  .byline{
+    font-size:12.5px;
+    color:var(--slate);
+    margin-bottom:18px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .lede{padding:0 24px;}
+  .lede p{font-size:14px;margin:0 0 12px;}
+  .framework{
+    font-size:16px;
+    font-weight:bold;
+    color:var(--navy);
+    margin:16px 0 12px;
+  }
+  .prompts{margin:0 0 26px;padding-left:18px;}
+  .prompts li{font-size:13px;margin-bottom:6px;}
+  .prompts strong{color:var(--navy);}
+
+  /* --- progress --- */
+  .progress-shell{padding:0 24px;margin-bottom:6px;}
+  .progress-track{
+    height:4px;
+    background:var(--lightblue);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--navy);
+    transition:width .35s ease;
+  }
+  .progress-label{
+    font-size:11px;
+    color:var(--slate);
+    margin:6px 0 20px;
+  }
+
+  /* --- quiz card --- */
+  .quizwrap{padding:0 24px;}
+  .card{
+    border-top:1px solid var(--line);
+    padding:20px 0;
+  }
+  .qcount{
+    font-size:12.5px;
+    color:var(--slate);
+    margin-bottom:4px;
+  }
+  .qtext{
+    font-weight:bold;
+    font-size:15px;
+    margin:0 0 12px;
+    color:var(--ink);
+  }
+
+  .css-quiz-group{margin:0 0 8px;font-size:13px;}
+  .css-quiz-opt{
+    display:flex;
+    align-items:stretch;
+    width:100%;
+    text-align:left;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:10px 12px;
+    margin-bottom:6px;
+    font-size:13px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .15s ease, background-color .15s ease;
+  }
+  .css-quiz-opt:hover:not(:disabled){border-color:var(--navy);}
+  .css-quiz-opt:disabled{cursor:default;}
+  .css-quiz-opt.correct{background:var(--good-bg);color:var(--good);font-weight:bold;border-color:var(--good);}
+  .css-quiz-opt.wrong{background:var(--bad-bg);color:var(--bad);font-weight:bold;border-color:var(--bad);}
+  .css-quiz-opt.dim{opacity:.55;}
+
+  .feedback{display:none;font-size:13px;color:#334155;}
+  .feedback.show{display:block;}
+  .feedback .why{margin:10px 0 10px;}
+  .feedback .why strong{color:var(--ink);}
+  .learnt{
+    background:#f8fafc;
+    border-left:3px solid var(--accent);
+    padding:8px 10px;
+  }
+  .learnt strong{display:block;color:var(--ink);margin-bottom:2px;}
+
+  .navrow{text-align:right;margin-top:14px;}
+  .nextbtn,.prevbtn{
+    font-size:13px;
+    border:none;
+    padding:9px 18px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:background-color .15s ease;
+  }
+  .nextbtn{background:var(--navy);color:#fff;}
+  .nextbtn:hover:not(:disabled){background:#0d4a7d;}
+  .nextbtn:disabled{opacity:.4;cursor:default;}
+  .prevbtn{background:#fff;color:var(--navy);border:1px solid var(--line);margin-right:8px;}
+  .prevbtn:hover:not(:disabled){border-color:var(--navy);}
+  .prevbtn:disabled{opacity:.4;cursor:default;}
+
+  /* --- results --- */
+  .results{display:none;padding:0 24px 8px;}
+  .results.show{display:block;}
+  .score-hero{
+    text-align:center;
+    padding:22px 16px;
+    background:var(--lightblue);
+    border-radius:6px;
+    margin:20px 0 24px;
+  }
+  .score-eyebrow{
+    font-size:11.5px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--navy);
+    margin-bottom:6px;
+  }
+  .score-num{
+    font-size:34px;
+    font-weight:bold;
+    color:var(--navy);
+  }
+  .rank-title{
+    display:inline-block;
+    margin-top:8px;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:.02em;
+    color:var(--accent);
+    background:#fff;
+    border:1px solid var(--accent);
+    border-radius:3px;
+    padding:4px 12px;
+  }
+  .score-sub{
+    font-size:13px;
+    color:#1e3a5f;
+    margin-top:10px;
+  }
+
+  .recap-title{
+    text-align:center;
+    font-size:18px;
+    color:var(--navy);
+    margin:0 0 14px;
+  }
+  table.recap{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
+    margin-bottom:8px;
+  }
+  table.recap th,table.recap td{
+    border:1px solid var(--line);
+    padding:6px 8px;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.recap th{
+    font-weight:bold;
+    background:#f8fafc;
+    width:32%;
+    color:var(--navy);
+  }
+
+  .signoff{
+    padding:20px 24px;
+    font-size:13px;
+    color:#1e293b;
+  }
+  .signoff strong{display:block;margin-bottom:2px;}
+
+  @media (max-width:480px){
+    h1{font-size:20px;}
+    .score-num{font-size:28px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="badge-row"><span class="badge">Caselet of the Week</span></div>
+    <h1>Pulse - The ASC Growth Play</h1>
+  </div>
+
+  <div class="lede" id="lede">
+    <p>This caselet works through a surgical-centre chain's growth plan using a simple four-step framework: understand the growth objective, evaluate new-city expansion, identify organic growth at existing centres, and recommend a plan with its risks.</p>
+    <p>When no single lever reaches the target, look for a combination. Focus on what each lever contributes, and whether the revenue is also profitable.</p>
+
+    <div class="framework">Understand the Objective &rarr; Evaluate Expansion &rarr; Find Organic Levers &rarr; Recommend and De-risk</div>
+
+    <ul class="prompts">
+      <li><strong>What is the growth target?</strong> Define the revenue goal, the time frame and the profitability constraint, and break revenue into its drivers.</li>
+      <li><strong>Where can the revenue come from?</strong> Compare candidate cities on doctor availability and specialty mix, then size the opportunity within existing centres.</li>
+      <li><strong>Is the plan viable?</strong> Combine the levers against the target and test the plan against investment, ramp-up, competition and margin risks.</li>
+    </ul>
+  </div>
+
+  <div class="progress-shell">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">Question 1 of 8</div>
+  </div>
+
+  <div class="quizwrap" id="quiz"></div>
+
+  <div class="results" id="results">
+    <div class="score-hero">
+      <div class="score-eyebrow">Case complete</div>
+      <div class="score-num"><span id="scoreVal">0</span>/8</div>
+      <div class="rank-title" id="rankTitle"></div>
+      <div class="score-sub" id="scoreMsg"></div>
+    </div>
+
+    <h2 class="recap-title">Did you get it right?</h2>
+    <table class="recap">
+      <tr><th>Concept</th><th>What you learnt</th></tr>
+      <tr><td>Revenue Growth Drivers</td><td>Revenue can grow through higher customer volumes, additional services, improved utilisation and expansion into new markets. Understanding the underlying drivers helps identify practical growth opportunities.</td></tr>
+      <tr><td>Market and Location Selection</td><td>Choosing a new market means evaluating resource availability, demand, competitive intensity and revenue potential. A larger market is not necessarily the most attractive one.</td></tr>
+      <tr><td>Capacity Utilisation</td><td>Measures how effectively available resources are used. Improving utilisation at existing facilities can generate additional revenue without equivalent investment in new infrastructure.</td></tr>
+      <tr><td>Revenue Mix</td><td>The contribution of different products, services or specialties to total revenue. Focusing on higher-reimbursement services can improve revenue potential, although profitability also depends on the associated costs.</td></tr>
+      <tr><td>Portfolio Approach to Growth</td><td>Combining multiple growth initiatives instead of relying on a single opportunity. This reduces dependence on one initiative, provided each is independently feasible and the combined economics are sound.</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "q": "What is the primary objective of Pulse's engagement?",
+    "opts": [
+      "Lift revenue-linked income by negotiating higher reimbursement rates with payers across all 8 centres",
+      "Open as many new centres as the balance sheet allows so the target is reached early",
+      "Add about ₹60 crore of annual revenue within 12–18 months while holding the blended EBITDA margin at 22%",
+      "Deliver 15% revenue growth even if margins dip below current levels during the expansion"
+    ],
+    "correct": 2,
+    "why": "Pulse generates ₹400 crore today and wants 15% growth, which is ₹60 crore. Growth must not come at the expense of profitability, as the blended EBITDA margin must not fall below the current 22%. Reimbursement rates are set by payers, so price increases are not an option.",
+    "learnt": "A good consulting problem statement defines the desired outcome, the time frame and the constraints. Revenue growth alone is not enough if it damages profitability."
+  },
+  {
+    "q": "Which of the following best explains what drives revenue at an ASC?",
+    "opts": [
+      "Procedures performed multiplied by the revenue earned per procedure",
+      "Operating rooms available multiplied by the hours each room is open",
+      "Surgeons with admitting rights multiplied by their average consulting fee",
+      "Patient footfall in the city multiplied by the share of patients with insurance"
+    ],
+    "correct": 0,
+    "why": "ASC revenue is primarily procedures performed × reimbursement per procedure. Procedure volume depends on how many surgeons operate at the centre and how many patients they treat. Since payers set reimbursement, Pulse must grow volumes and improve its business mix rather than raise prices.",
+    "learnt": "Break revenue into its basic drivers. When prices cannot be increased, businesses can still grow by increasing volumes, attracting more customers, or changing the mix of products and services."
+  },
+  {
+    "q": "Based on the doctor availability data, which city should Pulse eliminate first from consideration?",
+    "opts": [
+      "Lucknow",
+      "Kochi",
+      "Pune-2",
+      "None, as the data does not allow a ranking"
+    ],
+    "correct": 1,
+    "why": "Lucknow has at least as many doctors as Kochi in every specialty: 10 vs 8 in orthopaedics, 10 vs 4 in neurology and 5 vs 4 in gastroenterology. Kochi is weaker on every parameter, so it can be eliminated without calculating its total revenue.",
+    "learnt": "Look for obvious differences in the data before performing detailed calculations. If one option is weaker across every relevant parameter, eliminate it early and focus on the stronger alternatives."
+  },
+  {
+    "q": "Which specialty generates the highest annual revenue per doctor based on the assumptions provided?",
+    "opts": [
+      "Neurology, as its higher reimbursement outweighs its lower patient volume",
+      "Orthopaedics, as it has the highest patient volume per doctor",
+      "Gastroenterology, as it balances volume and reimbursement best",
+      "Neurology and Gastroenterology, which tie at roughly ₹3 crore each"
+    ],
+    "correct": 0,
+    "why": "Orthopaedics: 180 patients × ₹50,000 = ₹0.9 crore. Neurology: 120 × ₹2,50,000 = ₹3 crore. Gastroenterology: 144 × ₹1,50,000 = ₹2.16 crore. Neurology earns the most per doctor despite treating fewer patients, because each procedure is reimbursed far more.",
+    "learnt": "Revenue depends on both volume and value per transaction. A specialty with fewer patients can generate more revenue if the reimbursement per procedure is higher."
+  },
+  {
+    "q": "Which city offers the highest estimated annual revenue potential?",
+    "opts": [
+      "Pune-2, because it has the largest pool of doctors",
+      "Kochi, at ₹27.84 crore",
+      "Pune-2, at ₹37.08 crore",
+      "Lucknow, at ₹49.8 crore"
+    ],
+    "correct": 3,
+    "why": "Lucknow has the highest estimate at ₹49.8 crore, driven by its specialty mix: 10 neurology doctors against 3 in Pune-2 and 4 in Kochi. Lucknow alone does not reach the ₹60 crore target, leaving ₹60 crore − ₹49.8 crore = ₹10.2 crore to come from existing centres.",
+    "learnt": "Consider both the number of available resources and their revenue-generating potential. A city with fewer doctors can outperform a larger one if its specialty mix is more attractive."
+  },
+  {
+    "q": "Which of the following is the most direct way to increase revenue at Pulse's existing centres without opening a new facility?",
+    "opts": [
+      "Raise the revenue share charged to surgeons who use the centres",
+      "Add specialties and use spare operating-room capacity to perform more procedures",
+      "Consolidate lower-utilisation centres so the remaining ones run fuller",
+      "Shift the procedure mix towards cheaper cases that fill slots faster"
+    ],
+    "correct": 1,
+    "why": "Existing centres run at about 65–70% operating-room utilisation, so spare capacity exists. Adding a specialty such as urology generates new procedures and attracts new patients without a new ASC. Better surgeon scheduling and stronger referral networks can also lift utilisation.",
+    "learnt": "Before recommending expansion, check whether existing resources are fully utilised. Improving productivity at current locations can be a lower-investment growth opportunity."
+  },
+  {
+    "q": "Based on the assumptions (8 ASCs, 2 urologists each, 8 patients per urologist per month, ₹80,000 per procedure), what is the approximate annual revenue potential from introducing urology?",
+    "opts": [
+      "₹1.0 crore",
+      "₹6.1 crore",
+      "₹12.3 crore",
+      "₹24.6 crore"
+    ],
+    "correct": 2,
+    "why": "8 ASCs × 2 urologists = 16 urologists. 8 patients × 12 months = 96 patients per urologist per year. 16 × 96 = 1,536 patients. 1,536 × ₹80,000 = ₹12,28,80,000, or about ₹12.3 crore. The original case rounds patients to 1,500 for about ₹12 crore.",
+    "learnt": "Break a growth opportunity into simple steps: number of resources, productivity per resource, total volume, and revenue per unit. This makes assumptions easy to check and avoids calculation errors."
+  },
+  {
+    "q": "Which recommendation best addresses Pulse's growth objective?",
+    "opts": [
+      "Open the Pune-2 ASC and add urology at existing centres, building on Pulse's presence in Pune",
+      "Open the Lucknow ASC alone, since it has the highest revenue potential of the three cities",
+      "Add urology and step up referral marketing at existing centres, deferring any new-city investment",
+      "Open the Lucknow ASC and add urology at all 8 centres, subject to validating investment and margin"
+    ],
+    "correct": 3,
+    "why": "Lucknow adds ₹49.8 crore, which falls short of ₹60 crore alone. Urology adds about ₹12.29 crore, so the combination reaches about ₹62.1 crore, ahead of the target. Pune-2 plus urology (about ₹49.4 crore) and urology alone (about ₹12.3 crore) fall short. The plan must still be validated, as revenue does not establish that the 22% EBITDA margin will hold.",
+    "learnt": "When one growth opportunity cannot achieve the target independently, combine complementary levers. A portfolio of initiatives can provide a more balanced path to growth than a single large bet."
+  }
+];
+
+const LETTERS = ["A","B","C","D"];
+let current = 0;
+const answers = new Array(QUESTIONS.length).fill(null);
+
+const quizEl = document.getElementById('quiz');
+const fill = document.getElementById('progressFill');
+const label = document.getElementById('progressLabel');
+
+function getScore(){
+  return answers.reduce((sum, sel, idx) => sum + (sel === QUESTIONS[idx].correct ? 1 : 0), 0);
+}
+
+function updateProgress(){
+  const pct = current < QUESTIONS.length ? (current / QUESTIONS.length) * 100 : 100;
+  fill.style.width = pct + '%';
+  label.textContent = current < QUESTIONS.length
+    ? `Question ${current+1} of ${QUESTIONS.length}`
+    : `Complete: ${QUESTIONS.length} of ${QUESTIONS.length}`;
+}
+
+function renderQuestion(){
+  updateProgress();
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('lede').style.display = current === 0 ? '' : 'none';
+  const item = QUESTIONS[current];
+  const answered = answers[current];
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="qcount">Question ${current+1} of ${QUESTIONS.length}</div>
+    <div class="qtext">${item.q}</div>
+    <div class="css-quiz-group"></div>
+    <div class="feedback">
+      <div class="why"><strong>Explanation:</strong> ${item.why}</div>
+      <div class="learnt"><strong>Takeaway:</strong> ${item.learnt}</div>
+    </div>
+    <div class="navrow">
+      <button class="prevbtn" type="button" ${current === 0 ? "disabled" : ""}>Previous</button>
+      <button class="nextbtn" type="button" ${answered === null ? "disabled" : ""}>${current === QUESTIONS.length-1 ? "See results" : "Next question"}</button>
+    </div>
+  `;
+
+  const group = card.querySelector('.css-quiz-group');
+  item.opts.forEach((text, i)=>{
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'css-quiz-opt';
+    btn.textContent = `${LETTERS[i]}. ${text}`;
+    if(answered === null){
+      btn.addEventListener('click', ()=> selectOption(i, card));
+    } else {
+      btn.disabled = true;
+      if(i === item.correct) btn.classList.add('correct');
+      else if(i === answered) btn.classList.add('wrong');
+      else btn.classList.add('dim');
+    }
+    group.appendChild(btn);
+  });
+
+  if(answered !== null){
+    card.querySelector('.feedback').classList.add('show');
+  }
+
+  card.querySelector('.prevbtn').addEventListener('click', ()=>{
+    if(current > 0){
+      current--;
+      renderQuestion();
+    }
+  });
+  card.querySelector('.nextbtn').addEventListener('click', ()=>{
+    current++;
+    if(current < QUESTIONS.length){
+      renderQuestion();
+    } else {
+      showResults();
+    }
+  });
+
+  quizEl.innerHTML = '';
+  quizEl.appendChild(card);
+}
+
+function selectOption(i, card){
+  const item = QUESTIONS[current];
+  answers[current] = i;
+  const opts = card.querySelectorAll('.css-quiz-opt');
+  opts.forEach((btn, idx)=>{
+    btn.disabled = true;
+    if(idx === item.correct) btn.classList.add('correct');
+    else if(idx === i) btn.classList.add('wrong');
+    else btn.classList.add('dim');
+  });
+
+  card.querySelector('.feedback').classList.add('show');
+  card.querySelector('.nextbtn').disabled = false;
+}
+
+function getRankTitle(score){
+  if(score === 8) return "CasedIt!";
+  if(score >= 6) return "Sharp Analyst";
+  if(score >= 4) return "Budding Consultant";
+  return "Case Rookie";
+}
+
+function showResults(){
+  updateProgress();
+  quizEl.innerHTML = '';
+  document.getElementById('results').classList.add('show');
+  const score = getScore();
+  document.getElementById('scoreVal').textContent = score;
+  document.getElementById('rankTitle').textContent = getRankTitle(score);
+  const msgEl = document.getElementById('scoreMsg');
+  let msg;
+  if(score === 8) msg = "Full marks. You navigated Pulse from the growth objective to an integrated growth plan without missing a step.";
+  else if(score >= 6) msg = "Strong case sense. Revisit the misses above to sharpen the diagnosis further.";
+  else if(score >= 4) msg = "A solid start. Review the recap below to reinforce the framework before the next caselet.";
+  else msg = "Worth a second pass. Walk back through the reasoning in each explanation above.";
+  msgEl.textContent = msg;
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
